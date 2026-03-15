@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MC Server Manager</title>
+  <link rel="stylesheet" href="/web/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/editor/editor.main.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
+  <link rel="icon" href="data:,">
+</head>
+<body>
+  <header>
+    <h1>MC Server Manager</h1>
+    <button id="refreshBtn" type="button">Refresh</button>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Servers</h2>
+      </div>
+
+      <form id="createServerForm" class="create-form">
+        <div class="field-group">
+          <label for="serverNameInput">Name</label>
+          <input id="serverNameInput" name="name" type="text" placeholder="survival" autocomplete="off" required>
+        </div>
+        <div class="field-grid">
+          <div class="field-group">
+            <label for="serverTypeSelect">Type</label>
+            <select id="serverTypeSelect" name="type">
+              <option value="VANILLA">Vanilla</option>
+              <option value="PAPER">Paper</option>
+              <option value="FORGE">Forge</option>
+              <option value="FABRIC">Fabric</option>
+              <option value="NEOFORGE">NeoForge</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="serverPortInput">Port</label>
+            <input id="serverPortInput" name="port" type="number" min="1024" max="65535" value="25565" required>
+          </div>
+        </div>
+        <button id="createServerBtn" type="submit">Create Server</button>
+      </form>
+
+      <p class="helper-text">Create a new server, then open its console to manage it.</p>
+      <div id="servers" class="servers"></div>
+    </section>
+
+    <section class="panel main-panel">
+      <div class="tabs" role="tablist" aria-label="Main panels">
+        <button type="button" id="tabConsoleBtn" class="tab-btn active" data-tab="consoleTab" role="tab" aria-selected="true">Console + Config</button>
+        <button type="button" id="tabFilesBtn" class="tab-btn" data-tab="filesTab" role="tab" aria-selected="false">File Manager</button>
+      </div>
+
+      <section id="consoleTab" class="tab-panel active" role="tabpanel" aria-labelledby="tabConsoleBtn">
+        <h2 id="consoleTitle">Console</h2>
+        <div id="status" class="status">No server selected.</div>
+        <pre id="logOutput" class="log-output"></pre>
+        <form id="commandForm" class="command-form">
+          <label for="commandInput" class="sr-only">Server command</label>
+          <input id="commandInput" type="text" placeholder="Type command..." autocomplete="off" disabled>
+          <button id="sendBtn" type="submit" disabled>Send</button>
+        </form>
+
+        <section class="config-panel">
+          <div class="panel-header">
+            <h3>Server Configuration</h3>
+          </div>
+          <p class="helper-text">You can set the EULA now and edit vanilla-style `server.properties` values for the selected server.</p>
+          <form id="serverConfigForm" class="create-form">
+            <label class="checkbox-row" for="eulaAcceptedInput">
+              <input id="eulaAcceptedInput" name="eulaAccepted" type="checkbox">
+              <span>I accept the Minecraft EULA for this server</span>
+            </label>
+            <button id="saveServerConfigBtn" type="submit" disabled>Save EULA</button>
+          </form>
+
+          <section class="properties-panel">
+            <div class="panel-header properties-header">
+              <h4>Vanilla Server Properties</h4>
+              <button id="reloadConfigBtn" type="button" disabled>Reload Properties</button>
+            </div>
+            <p class="helper-text">Edit existing `server.properties` values here. More config file support can be added later.</p>
+            <div id="propertiesList" class="properties-list"></div>
+            <form id="propertyForm" class="property-form">
+              <div class="field-grid">
+                <div class="field-group">
+                  <label for="propertyKeyInput">Property Key</label>
+                  <input id="propertyKeyInput" name="propertyKey" type="text" placeholder="motd" disabled>
+                </div>
+                <div class="field-group">
+                  <label for="propertyValueInput">Property Value</label>
+                  <input id="propertyValueInput" name="propertyValue" type="text" placeholder="A Minecraft Server" disabled>
+                </div>
+              </div>
+              <button id="savePropertyBtn" type="submit" disabled>Save Property</button>
+            </form>
+          </section>
+        </section>
+      </section>
+
+      <section id="filesTab" class="tab-panel" role="tabpanel" aria-labelledby="tabFilesBtn"></section>
+    </section>
+  </main>
+
+  <script src="/web/app.js" defer></script>
+</body>
+</html>
+
