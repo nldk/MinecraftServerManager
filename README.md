@@ -15,6 +15,14 @@ A Kotlin/Ktor app to manage local Minecraft servers from a web UI and HTTP API.
 
 ---
 
+> [!WARNING]
+> **MCServerM has no authentication or authorisation.**
+> Anyone who can reach the web interface or API has full control over your servers — including starting/stopping, editing files, and running console commands.
+> **Do not expose this app to the public internet or any untrusted network.**
+> Run it on `localhost` or behind a firewall/VPN only.
+
+---
+
 ## Requirements
 
 - Java 17+
